@@ -26,7 +26,7 @@
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 22+
 - pnpm
 - Python 3.11+
 - Docker & Docker Compose
