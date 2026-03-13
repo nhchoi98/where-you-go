@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { NButton, NSpin, NEmpty, NSelect } from 'naive-ui'
+import { NButton, NSpin, NEmpty, NSelect, NIcon } from 'naive-ui'
+import { Add } from '@vicons/ionicons5'
 import { useTaskStore } from '../stores/task'
 import TaskCard from '../components/task/TaskCard.vue'
 import TaskFormModal from '../components/task/TaskFormModal.vue'
@@ -55,7 +56,7 @@ function handleFilterChange(val: number) {
 <template>
   <div class="task-list-page">
     <div class="page-header">
-      <h2 class="page-title">태스크</h2>
+      <h2 class="wyg-page-title">태스크</h2>
       <div class="header-actions">
         <NSelect
           :value="filterPriority"
@@ -64,8 +65,9 @@ function handleFilterChange(val: number) {
           style="width: 100px;"
           @update:value="handleFilterChange"
         />
-        <NButton type="primary" class="add-btn" @click="handleAdd">
-          + 추가
+        <NButton type="primary" @click="handleAdd">
+          <template #icon><NIcon :component="Add" /></template>
+          추가
         </NButton>
       </div>
     </div>
@@ -81,9 +83,9 @@ function handleFilterChange(val: number) {
         />
       </div>
 
-      <NEmpty v-else description="아직 태스크가 없습니다" style="margin-top: 60px;">
+      <NEmpty v-else description="아직 태스크가 없습니다" class="empty-state">
         <template #extra>
-          <NButton type="primary" class="add-btn" @click="handleAdd">
+          <NButton type="primary" @click="handleAdd">
             첫 태스크 추가하기
           </NButton>
         </template>
@@ -104,31 +106,22 @@ function handleFilterChange(val: number) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-}
-
-.page-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #333;
-  margin: 0;
+  margin-bottom: var(--wyg-space-5);
 }
 
 .header-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--wyg-space-2);
   align-items: center;
-}
-
-.add-btn {
-  background-color: #E84057;
-  border-color: #E84057;
-  border-radius: 12px;
 }
 
 .task-grid {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--wyg-space-3);
+}
+
+.empty-state {
+  margin-top: var(--wyg-space-16);
 }
 </style>

@@ -92,7 +92,7 @@ async function handleSubmit() {
     <NCard
       :title="editTask ? '태스크 수정' : '새 태스크 추가'"
       :bordered="false"
-      class="modal-card"
+      class="wyg-modal-card"
       closable
       @close="emit('update:show', false)"
     >
@@ -133,9 +133,10 @@ async function handleSubmit() {
         <NButton
           type="primary"
           block
+          size="large"
           :loading="loading"
           attr-type="submit"
-          class="submit-btn"
+          style="margin-top: 8px;"
         >
           {{ editTask ? '수정' : '추가' }}
         </NButton>
@@ -145,41 +146,27 @@ async function handleSubmit() {
 </template>
 
 <style scoped>
-.modal-card {
-  width: 90vw;
-  max-width: 480px;
-  border-radius: 16px;
-}
-
 .meta-section {
-  margin-bottom: 16px;
+  margin-bottom: var(--wyg-space-4);
 }
 
 .meta-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: var(--wyg-space-2);
 }
 
 .meta-label {
-  font-size: 14px;
+  font-size: var(--wyg-font-base);
   font-weight: 500;
-  color: #333;
+  color: var(--wyg-text-primary);
 }
 
 .meta-row {
   display: flex;
-  gap: 8px;
+  gap: var(--wyg-space-2);
   align-items: center;
-  margin-bottom: 8px;
-}
-
-.submit-btn {
-  background-color: #E84057;
-  border-color: #E84057;
-  border-radius: 12px;
-  height: 44px;
-  margin-top: 8px;
+  margin-bottom: var(--wyg-space-2);
 }
 </style>

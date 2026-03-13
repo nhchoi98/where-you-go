@@ -19,7 +19,7 @@ const dateRange = computed(() => {
 </script>
 
 <template>
-  <NCard class="journal-card" @click="emit('click', journal)">
+  <NCard class="journal-card wyg-card wyg-card-hoverable" @click="emit('click', journal)">
     <div class="journal-header">
       <h3 class="journal-title">{{ journal.title }}</h3>
       <NPopconfirm @positive-click="emit('delete', journal.id)">
@@ -45,17 +45,6 @@ const dateRange = computed(() => {
 </template>
 
 <style scoped>
-.journal-card {
-  border-radius: 16px;
-  border: 1px solid #FFD6D6;
-  cursor: pointer;
-  transition: box-shadow 0.2s;
-}
-
-.journal-card:hover {
-  box-shadow: 0 4px 16px rgba(232, 64, 87, 0.12);
-}
-
 .journal-header {
   display: flex;
   justify-content: space-between;
@@ -63,25 +52,25 @@ const dateRange = computed(() => {
 }
 
 .journal-title {
-  font-size: 16px;
+  font-size: var(--wyg-font-lg);
   font-weight: 600;
-  color: #333;
+  color: var(--wyg-text-primary);
   margin: 0;
 }
 
 .journal-date {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 13px;
-  color: #E84057;
-  margin: 6px 0;
+  gap: var(--wyg-space-1);
+  font-size: var(--wyg-font-sm);
+  color: var(--wyg-text-accent);
+  margin: var(--wyg-space-2) 0;
 }
 
 .journal-desc {
-  font-size: 13px;
-  color: #666;
-  margin: 4px 0 8px;
+  font-size: var(--wyg-font-sm);
+  color: var(--wyg-text-secondary);
+  margin: var(--wyg-space-1) 0 var(--wyg-space-2);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -89,6 +78,6 @@ const dateRange = computed(() => {
 
 .journal-footer {
   display: flex;
-  gap: 6px;
+  gap: var(--wyg-space-2);
 }
 </style>

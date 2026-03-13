@@ -27,8 +27,8 @@ onMounted(() => {
 
 <template>
   <div class="random-pick-page">
-    <h2 class="page-title">랜덤 뽑기</h2>
-    <p class="page-desc">태스크 중에서 랜덤으로 뽑아보세요</p>
+    <h2 class="wyg-page-title">랜덤 뽑기</h2>
+    <p class="wyg-page-desc">태스크 중에서 랜덤으로 뽑아보세요</p>
 
     <template v-if="taskNames.length >= 2">
       <NTabs type="segment" animated>
@@ -46,21 +46,12 @@ onMounted(() => {
       </NTabs>
     </template>
 
-    <NEmpty v-else description="태스크를 2개 이상 추가해주세요" style="margin-top: 60px;" />
+    <NEmpty v-else description="태스크를 2개 이상 추가해주세요" class="empty-state" />
   </div>
 </template>
 
 <style scoped>
-.page-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #333;
-  margin: 0 0 4px;
-}
-
-.page-desc {
-  font-size: 14px;
-  color: #888;
-  margin: 0 0 20px;
+.empty-state {
+  margin-top: var(--wyg-space-16);
 }
 </style>

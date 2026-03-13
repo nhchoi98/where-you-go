@@ -107,7 +107,7 @@ async function handleSubmit() {
     <NCard
       :title="editJournal ? '저널 수정' : '새 저널 만들기'"
       :bordered="false"
-      class="modal-card"
+      class="journal-modal-card"
       closable
       @close="emit('update:show', false)"
     >
@@ -154,9 +154,10 @@ async function handleSubmit() {
         <NButton
           type="primary"
           block
+          size="large"
           :loading="loading"
           attr-type="submit"
-          class="submit-btn"
+          style="margin-top: 8px;"
         >
           {{ editJournal ? '수정' : '만들기' }}
         </NButton>
@@ -166,19 +167,11 @@ async function handleSubmit() {
 </template>
 
 <style scoped>
-.modal-card {
+.journal-modal-card {
   width: 90vw;
   max-width: 520px;
-  border-radius: 16px;
+  border-radius: var(--wyg-radius-lg);
   max-height: 90vh;
   overflow-y: auto;
-}
-
-.submit-btn {
-  background-color: #E84057;
-  border-color: #E84057;
-  border-radius: 12px;
-  height: 44px;
-  margin-top: 8px;
 }
 </style>

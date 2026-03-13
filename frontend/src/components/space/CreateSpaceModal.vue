@@ -39,7 +39,8 @@ async function handleCreate() {
     <NCard
       title="새 스페이스 만들기"
       :bordered="false"
-      class="modal-card"
+      class="wyg-modal-card"
+      style="max-width: 420px;"
       closable
       @close="emit('update:show', false)"
     >
@@ -58,9 +59,10 @@ async function handleCreate() {
         <NButton
           type="primary"
           block
+          size="large"
           :loading="loading"
           attr-type="submit"
-          class="submit-btn"
+          style="margin-top: 8px;"
         >
           만들기
         </NButton>
@@ -68,19 +70,3 @@ async function handleCreate() {
     </NCard>
   </NModal>
 </template>
-
-<style scoped>
-.modal-card {
-  width: 90vw;
-  max-width: 420px;
-  border-radius: 16px;
-}
-
-.submit-btn {
-  background-color: #E84057;
-  border-color: #E84057;
-  border-radius: 12px;
-  height: 44px;
-  margin-top: 8px;
-}
-</style>

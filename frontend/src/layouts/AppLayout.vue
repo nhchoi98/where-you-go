@@ -1,19 +1,32 @@
 <script setup lang="ts">
 import { useBreakpoints } from '@vueuse/core'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import BottomNav from '../components/BottomNav.vue'
 import SideNav from '../components/SideNav.vue'
+import AiFloatingButton from '../components/AiFloatingButton.vue'
 
 const breakpoints = useBreakpoints({ sm: 640, md: 768, lg: 1024 })
 const isMobile = breakpoints.smaller('lg')
+
+const route = useRoute()
+const spaceId = computed(() => route.params.id as string | undefined)
 </script>
 
 <template>
   <div class="app-layout">
     <SideNav v-if="!isMobile" />
     <main class="app-main" :class="{ 'has-bottom-nav': isMobile }">
-      <RouterView />
+      <div class="app-content">
+        <RouterView v-slot="{ Component }">
+          <Transition name="page-fade" mode="out-in">
+            <component :is="Component" />
+          </Transition>
+        </RouterView>
+      </div>
     </main>
     <BottomNav v-if="isMobile" />
+    <AiFloatingButton v-if="spaceId" :space-id="spaceId" :is-mobile="isMobile" />
   </div>
 </template>
 
@@ -21,16 +34,29 @@ const isMobile = breakpoints.smaller('lg')
 .app-layout {
   display: flex;
   min-height: 100vh;
-  background-color: #FFF5E4;
+  background-color: var(--wyg-bg-page);
 }
 
 .app-main {
   flex: 1;
-  padding: 16px;
   max-width: 100%;
+  min-width: 0;
+  background-color: var(--wyg-bg-card);
 }
 
-.app-main.has-bottom-nav {
-  padding-bottom: 80px;
+.app-content {
+  max-width: var(--wyg-content-max-width);
+  margin: 0 auto;
+  padding: var(--wyg-space-4);
+}
+
+.app-main.has-bottom-nav .app-content {
+  padding-bottom: calc(var(--wyg-bottomnav-height) + var(--wyg-space-4));
+}
+
+@media (min-width: 1024px) {
+  .app-content {
+    padding: var(--wyg-space-6) var(--wyg-space-8);
+  }
 }
 </style>

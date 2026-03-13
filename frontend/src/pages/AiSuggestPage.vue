@@ -10,8 +10,8 @@ import DOMPurify from 'dompurify'
 
 const md = new MarkdownIt({ linkify: true })
 md.renderer.rules.link_open = (tokens, idx, options, _env, self) => {
-  tokens[idx].attrSet('target', '_blank')
-  tokens[idx].attrSet('rel', 'noopener noreferrer')
+  tokens[idx]!.attrSet('target', '_blank')
+  tokens[idx]!.attrSet('rel', 'noopener noreferrer')
   return self.renderToken(tokens, idx, options)
 }
 
@@ -35,11 +35,9 @@ const spaceId = computed(() => route.params.id as string)
 const selectedTaskId = ref<string | null>(null)
 const dateRange = ref<[number, number] | null>(null)
 
-// Step 1: 옵션
 const optionsLoading = ref(false)
 const options = ref<AiOptionItem[]>([])
 
-// Step 2: 상세
 const selectedOption = ref<AiOptionItem | null>(null)
 const detailLoading = ref(false)
 const detailResult = ref<string | null>(null)
@@ -113,13 +111,13 @@ function handleReset() {
 
 <template>
   <div class="ai-suggest-page">
-    <h2 class="page-title">AI 코스 추천</h2>
-    <p class="page-desc">AI가 2개의 코스를 제안합니다. 마음에 드는 걸 선택하면 상세 일정을 만들어줘요</p>
+    <h2 class="wyg-page-title">AI 코스 추천</h2>
+    <p class="wyg-page-desc">AI가 2개의 코스를 제안합니다. 마음에 드는 걸 선택하면 상세 일정을 만들어줘요</p>
 
-    <!-- Step 0: 입력 -->
-    <NCard class="form-card" :bordered="false">
-      <div class="form-row">
-        <label class="form-label">기준 태스크</label>
+    <!-- Step 0: Input -->
+    <NCard class="wyg-form-card" :bordered="false">
+      <div class="wyg-form-row">
+        <label class="wyg-form-label">기준 태스크</label>
         <NSelect
           v-model:value="selectedTaskId"
           :options="taskOptions"
@@ -128,8 +126,8 @@ function handleReset() {
         />
       </div>
 
-      <div class="form-row">
-        <label class="form-label">기간 (선택)</label>
+      <div class="wyg-form-row">
+        <label class="wyg-form-label">기간 (선택)</label>
         <NDatePicker
           v-model:value="dateRange"
           type="daterange"
@@ -141,221 +139,147 @@ function handleReset() {
       <NButton
         type="primary"
         block
+        size="large"
         :loading="optionsLoading"
         :disabled="optionsLoading || detailLoading"
-        class="suggest-btn"
         @click="handleSuggest"
       >
         {{ optionsLoading ? 'AI가 2개 플랜을 준비 중...' : 'AI에게 추천받기' }}
       </NButton>
     </NCard>
 
-    <!-- Step 1: 옵션 선택 -->
+    <!-- Step 1: Options as chat bubbles -->
     <NSpin :show="optionsLoading">
-      <div v-if="options.length && !detailResult" class="options-section">
-        <h3 class="section-title">어떤 플랜이 마음에 드세요?</h3>
-        <div class="options-grid">
-          <NCard
-            v-for="option in options"
-            :key="option.key"
-            class="option-card"
+      <div v-if="options.length && !detailResult" class="chat-section">
+        <div class="ai-message">
+          <div class="ai-avatar">AI</div>
+          <div class="ai-bubble">
+            <p class="bubble-intro">두 가지 코스를 준비했어요!</p>
+          </div>
+        </div>
+
+        <div
+          v-for="option in options"
+          :key="option.key"
+          class="ai-message"
+        >
+          <div class="ai-avatar">AI</div>
+          <div
+            class="ai-bubble option-bubble"
             :class="{ selected: selectedOption?.key === option.key }"
-            :bordered="false"
             @click="handleSelectOption(option)"
           >
             <div class="option-label">{{ option.label }}</div>
-            <div class="md-content" v-html="renderMd(option.summary)" />
+            <div class="wyg-markdown" v-html="renderMd(option.summary)" />
             <NButton
               type="primary"
               size="small"
-              class="select-btn"
               :loading="detailLoading && selectedOption?.key === option.key"
               @click.stop="handleSelectOption(option)"
             >
               {{ detailLoading && selectedOption?.key === option.key ? '상세 일정 생성 중...' : '이 코스로 결정' }}
             </NButton>
-          </NCard>
+          </div>
         </div>
       </div>
     </NSpin>
 
-    <!-- Step 2: 상세 결과 -->
+    <!-- Step 2: Detail result -->
     <NSpin :show="detailLoading">
-      <div v-if="detailResult" class="detail-section">
-        <div class="detail-header">
-          <h3 class="section-title">{{ selectedOption?.label }} 상세 코스</h3>
-          <NButton size="small" @click="handleReset">다시 선택하기</NButton>
+      <div v-if="detailResult" class="chat-section">
+        <div class="ai-message">
+          <div class="ai-avatar">AI</div>
+          <div class="ai-bubble detail-bubble">
+            <div class="detail-header-row">
+              <span class="detail-label">{{ selectedOption?.label }} 상세 코스</span>
+              <NButton text size="small" @click="handleReset">다시 선택하기</NButton>
+            </div>
+            <div class="wyg-markdown" v-html="renderMd(detailResult)" />
+          </div>
         </div>
-        <NCard class="detail-card" :bordered="false">
-          <div class="md-content" v-html="renderMd(detailResult)" />
-        </NCard>
       </div>
     </NSpin>
   </div>
 </template>
 
 <style scoped>
-.page-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #333;
-  margin: 0 0 4px;
-}
-
-.page-desc {
-  font-size: 14px;
-  color: #888;
-  margin: 0 0 20px;
-}
-
-.form-card {
-  border-radius: 16px;
-  margin-bottom: 20px;
-  border: 1px solid #FFD6D6;
-}
-
-.form-row {
-  margin-bottom: 16px;
-}
-
-.form-label {
-  display: block;
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 6px;
-}
-
-.suggest-btn {
-  background-color: #E84057;
-  border-color: #E84057;
-  border-radius: 12px;
-  height: 44px;
-  font-size: 16px;
-}
-
-.section-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #333;
-  margin: 0 0 16px;
-}
-
-/* Options */
-.options-section {
-  margin-top: 20px;
-}
-
-.options-grid {
+.chat-section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--wyg-space-4);
+  margin-top: var(--wyg-space-5);
 }
 
-.option-card {
-  border-radius: 16px;
-  border: 2px solid #FFD6D6;
+.ai-message {
+  display: flex;
+  gap: var(--wyg-space-3);
+  align-items: flex-start;
+}
+
+.ai-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--wyg-radius-full);
+  background: var(--wyg-primary);
+  color: var(--wyg-text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--wyg-font-xs);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.ai-bubble {
+  background: var(--wyg-bg-card);
+  border: 1px solid var(--wyg-border);
+  border-radius: var(--wyg-radius-md) var(--wyg-radius-lg) var(--wyg-radius-lg) var(--wyg-radius-lg);
+  padding: var(--wyg-space-3) var(--wyg-space-4);
+  max-width: 85%;
+}
+
+.bubble-intro {
+  font-size: var(--wyg-font-md);
+  color: var(--wyg-text-primary);
+  margin: 0;
+}
+
+.option-bubble {
   cursor: pointer;
-  transition: all 0.2s;
+  transition: border-color var(--wyg-transition-fast), background var(--wyg-transition-fast);
 }
 
-.option-card:hover {
-  border-color: #E84057;
-  box-shadow: 0 4px 16px rgba(232, 64, 87, 0.12);
+.option-bubble:hover {
+  border-color: var(--wyg-primary);
 }
 
-.option-card.selected {
-  border-color: #E84057;
-  background: linear-gradient(135deg, #FFF5E4 0%, #fff 100%);
+.option-bubble.selected {
+  border-color: var(--wyg-primary);
+  background: var(--wyg-primary-light);
 }
 
 .option-label {
-  font-size: 16px;
+  font-size: var(--wyg-font-lg);
   font-weight: 700;
-  color: #E84057;
-  margin-bottom: 12px;
+  color: var(--wyg-text-accent);
+  margin-bottom: var(--wyg-space-3);
 }
 
-.select-btn {
-  margin-top: 12px;
-  background-color: #E84057;
-  border-color: #E84057;
-  border-radius: 8px;
+.detail-bubble {
+  background: var(--wyg-bg-warm);
+  border-color: var(--wyg-primary);
 }
 
-/* Detail */
-.detail-section {
-  margin-top: 20px;
-}
-
-.detail-header {
+.detail-header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: var(--wyg-space-3);
 }
 
-.detail-card {
-  border-radius: 16px;
-  border: 2px solid #E84057;
-  background: linear-gradient(135deg, #FFF5E4 0%, #fff 100%);
-}
-
-/* Markdown */
-.md-content {
-  font-size: 14px;
-  line-height: 1.8;
-  color: #444;
-}
-
-.md-content :deep(h1),
-.md-content :deep(h2),
-.md-content :deep(h3) {
-  color: #333;
-  margin: 16px 0 8px;
-  font-weight: 600;
-}
-
-.md-content :deep(h2) {
-  font-size: 16px;
-  color: #E84057;
-}
-
-.md-content :deep(h3) {
-  font-size: 15px;
-  color: #E84057;
-}
-
-.md-content :deep(ul),
-.md-content :deep(ol) {
-  padding-left: 20px;
-  margin: 8px 0;
-}
-
-.md-content :deep(li) {
-  margin-bottom: 4px;
-}
-
-.md-content :deep(strong) {
-  color: #333;
-}
-
-.md-content :deep(hr) {
-  border: none;
-  border-top: 1px solid #FFD6D6;
-  margin: 16px 0;
-}
-
-.md-content :deep(p) {
-  margin: 8px 0;
-}
-
-.md-content :deep(a) {
-  color: #E84057;
-  text-decoration: none;
-}
-
-.md-content :deep(a:hover) {
-  text-decoration: underline;
+.detail-label {
+  font-size: var(--wyg-font-lg);
+  font-weight: 700;
+  color: var(--wyg-text-accent);
 }
 </style>

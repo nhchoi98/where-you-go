@@ -18,6 +18,14 @@ const priorityColors: Record<number, 'default' | 'info' | 'success' | 'warning' 
   5: 'error',
 }
 
+const priorityStripeColors: Record<number, string> = {
+  1: 'var(--wyg-text-tertiary)',
+  2: 'var(--wyg-info)',
+  3: 'var(--wyg-success)',
+  4: 'var(--wyg-warning)',
+  5: 'var(--wyg-primary)',
+}
+
 function metaIcon(type: string) {
   if (type === 'map_link') return Link
   if (type === 'image') return Heart
@@ -26,88 +34,96 @@ function metaIcon(type: string) {
 </script>
 
 <template>
-  <NCard class="task-card" @click="emit('edit', task)">
-    <div class="task-header">
-      <div class="task-title-row">
+  <NCard class="task-card wyg-card wyg-card-hoverable" @click="emit('edit', task)">
+    <div class="priority-stripe" :style="{ backgroundColor: priorityStripeColors[task.priority] }" />
+    <div class="task-content">
+      <div class="task-header">
         <span class="task-title">{{ task.title }}</span>
+        <NTag :type="priorityColors[task.priority]" size="small" round>
+          {{ priorityLabels[task.priority] }}
+        </NTag>
       </div>
-      <NTag :type="priorityColors[task.priority]" size="small" round>
-        {{ priorityLabels[task.priority] }}
-      </NTag>
-    </div>
 
-    <div v-if="task.placeName" class="task-place">
-      <NIcon :component="Location" :size="14" color="#E84057" />
-      <span>{{ task.placeName }}</span>
-    </div>
-
-    <div v-if="task.metadata?.entries?.length" class="task-meta">
-      <div v-for="(entry, idx) in task.metadata.entries" :key="idx" class="meta-entry">
-        <NIcon :component="metaIcon(entry.type)" :size="14" />
-        <span class="meta-content">{{ entry.content }}</span>
+      <div v-if="task.placeName" class="task-place">
+        <NIcon :component="Location" :size="14" color="var(--wyg-primary)" />
+        <span>{{ task.placeName }}</span>
       </div>
-    </div>
 
-    <div class="task-footer">
-      <NPopconfirm @positive-click="emit('delete', task.id)">
-        <template #trigger>
-          <NButton text size="small" type="error" @click.stop>
-            <template #icon><NIcon :component="TrashOutline" /></template>
-          </NButton>
-        </template>
-        삭제하시겠습니까?
-      </NPopconfirm>
+      <div v-if="task.metadata?.entries?.length" class="task-meta">
+        <div v-for="(entry, idx) in task.metadata.entries" :key="idx" class="meta-entry">
+          <NIcon :component="metaIcon(entry.type)" :size="14" />
+          <span class="meta-content">{{ entry.content }}</span>
+        </div>
+      </div>
+
+      <div class="task-footer">
+        <NPopconfirm @positive-click="emit('delete', task.id)">
+          <template #trigger>
+            <NButton text size="small" type="error" @click.stop>
+              <template #icon><NIcon :component="TrashOutline" /></template>
+            </NButton>
+          </template>
+          삭제하시겠습니까?
+        </NPopconfirm>
+      </div>
     </div>
   </NCard>
 </template>
 
 <style scoped>
 .task-card {
-  border-radius: 16px;
-  border: 1px solid #FFD6D6;
-  cursor: pointer;
-  transition: box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
 }
 
-.task-card:hover {
-  box-shadow: 0 4px 16px rgba(232, 64, 87, 0.12);
+.priority-stripe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: var(--wyg-radius-lg) 0 0 var(--wyg-radius-lg);
+}
+
+.task-content {
+  padding-left: var(--wyg-space-2);
 }
 
 .task-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: var(--wyg-space-2);
 }
 
 .task-title {
-  font-size: 15px;
+  font-size: var(--wyg-font-md);
   font-weight: 600;
-  color: #333;
+  color: var(--wyg-text-primary);
 }
 
 .task-place {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 8px;
+  gap: var(--wyg-space-1);
+  font-size: var(--wyg-font-sm);
+  color: var(--wyg-text-secondary);
+  margin-bottom: var(--wyg-space-2);
 }
 
 .task-meta {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-bottom: 8px;
+  gap: var(--wyg-space-1);
+  margin-bottom: var(--wyg-space-2);
 }
 
 .meta-entry {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: #666;
+  gap: var(--wyg-space-2);
+  font-size: var(--wyg-font-sm);
+  color: var(--wyg-text-secondary);
 }
 
 .meta-content {

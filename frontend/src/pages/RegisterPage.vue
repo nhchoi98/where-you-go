@@ -47,9 +47,9 @@ async function handleRegister() {
         <NButton
           type="primary"
           block
+          size="large"
           :loading="loading"
           attr-type="submit"
-          class="register-btn"
         >
           회원가입
         </NButton>
@@ -68,46 +68,43 @@ async function handleRegister() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #FFF5E4 0%, #FFD6D6 100%);
-  padding: 16px;
+  background: var(--wyg-bg-gradient);
+  padding: var(--wyg-space-4);
 }
 
 .register-card {
   width: 100%;
   max-width: 400px;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(232, 64, 87, 0.1);
+  border-radius: var(--wyg-radius-xl);
+  box-shadow: var(--wyg-shadow-lg);
 }
 
 .register-header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: var(--wyg-space-6);
 }
 
 .logo-text {
-  font-size: 28px;
+  font-size: var(--wyg-font-3xl);
   font-weight: 700;
-  color: #E84057;
-  margin: 0 0 4px;
+  color: var(--wyg-text-accent);
+  margin: 0 0 var(--wyg-space-1);
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
-  color: #999;
-  font-size: 14px;
+  color: var(--wyg-text-tertiary);
+  font-size: var(--wyg-font-base);
   margin: 0;
 }
 
-.register-btn {
-  background-color: #E84057;
-  border-color: #E84057;
-  border-radius: 12px;
-  height: 44px;
-  font-size: 16px;
+.link {
+  color: var(--wyg-text-accent);
+  text-decoration: none;
+  font-size: var(--wyg-font-base);
 }
 
-.link {
-  color: #E84057;
-  text-decoration: none;
-  font-size: 14px;
+.link:hover {
+  text-decoration: underline;
 }
 </style>

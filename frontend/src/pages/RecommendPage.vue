@@ -8,8 +8,8 @@ import DOMPurify from 'dompurify'
 
 const md = new MarkdownIt({ linkify: true })
 md.renderer.rules.link_open = (tokens, idx, options, _env, self) => {
-  tokens[idx].attrSet('target', '_blank')
-  tokens[idx].attrSet('rel', 'noopener noreferrer')
+  tokens[idx]!.attrSet('target', '_blank')
+  tokens[idx]!.attrSet('rel', 'noopener noreferrer')
   return self.renderToken(tokens, idx, options)
 }
 
@@ -55,12 +55,12 @@ async function handleRecommend() {
 
 <template>
   <div class="recommend-page">
-    <h2 class="page-title">행사 추천</h2>
-    <p class="page-desc">전시회, 미식 행사, 팝업스토어 등 다양한 행사를 추천받아보세요</p>
+    <h2 class="wyg-page-title">행사 추천</h2>
+    <p class="wyg-page-desc">전시회, 미식 행사, 팝업스토어 등 다양한 행사를 추천받아보세요</p>
 
-    <NCard class="form-card" :bordered="false">
-      <div class="form-row">
-        <label class="form-label">카테고리</label>
+    <NCard class="wyg-form-card" :bordered="false">
+      <div class="wyg-form-row">
+        <label class="wyg-form-label">카테고리</label>
         <NSelect
           v-model:value="category"
           :options="categoryOptions"
@@ -68,16 +68,16 @@ async function handleRecommend() {
         />
       </div>
 
-      <div class="form-row">
-        <label class="form-label">지역 (선택)</label>
+      <div class="wyg-form-row">
+        <label class="wyg-form-label">지역 (선택)</label>
         <NInput v-model:value="location" placeholder="예: 홍대, 강남, 성수" />
       </div>
 
       <NButton
         type="primary"
         block
+        size="large"
         :loading="loading"
-        class="recommend-btn"
         @click="handleRecommend"
       >
         {{ loading ? '행사 검색 중...' : '추천받기' }}
@@ -87,113 +87,22 @@ async function handleRecommend() {
     <NSpin :show="loading">
       <NCard v-if="result" class="result-card" :bordered="false">
         <h3 class="result-title">추천 행사</h3>
-        <div class="md-content" v-html="renderMd(result.result)" />
+        <div class="wyg-markdown" v-html="renderMd(result.result)" />
       </NCard>
     </NSpin>
   </div>
 </template>
 
 <style scoped>
-.page-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #333;
-  margin: 0 0 4px;
-}
-
-.page-desc {
-  font-size: 14px;
-  color: #888;
-  margin: 0 0 20px;
-}
-
-.form-card {
-  border-radius: 16px;
-  margin-bottom: 20px;
-  border: 1px solid #FFD6D6;
-}
-
-.form-row {
-  margin-bottom: 16px;
-}
-
-.form-label {
-  display: block;
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 6px;
-}
-
-.recommend-btn {
-  background-color: #E84057;
-  border-color: #E84057;
-  border-radius: 12px;
-  height: 44px;
-  font-size: 16px;
-}
-
 .result-card {
-  border-radius: 16px;
-  border: 2px solid #FFD6D6;
+  border-radius: var(--wyg-radius-lg);
+  border: 1px solid var(--wyg-border);
 }
 
 .result-title {
-  font-size: 18px;
+  font-size: var(--wyg-font-xl);
   font-weight: 700;
-  color: #E84057;
-  margin: 0 0 12px;
-}
-
-.md-content {
-  font-size: 14px;
-  line-height: 1.8;
-  color: #444;
-}
-
-.md-content :deep(h1),
-.md-content :deep(h2),
-.md-content :deep(h3) {
-  color: #333;
-  margin: 16px 0 8px;
-  font-weight: 600;
-}
-
-.md-content :deep(h3) {
-  font-size: 15px;
-  color: #E84057;
-}
-
-.md-content :deep(ul),
-.md-content :deep(ol) {
-  padding-left: 20px;
-  margin: 8px 0;
-}
-
-.md-content :deep(li) {
-  margin-bottom: 4px;
-}
-
-.md-content :deep(strong) {
-  color: #333;
-}
-
-.md-content :deep(hr) {
-  border: none;
-  border-top: 1px solid #FFD6D6;
-  margin: 16px 0;
-}
-
-.md-content :deep(p) {
-  margin: 8px 0;
-}
-
-.md-content :deep(a) {
-  color: #E84057;
-  text-decoration: none;
-}
-
-.md-content :deep(a:hover) {
-  text-decoration: underline;
+  color: var(--wyg-text-accent);
+  margin: 0 0 var(--wyg-space-3);
 }
 </style>

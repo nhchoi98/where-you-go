@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { NButton, NSpin, NEmpty } from 'naive-ui'
+import { NButton, NSpin, NEmpty, NIcon } from 'naive-ui'
+import { Add } from '@vicons/ionicons5'
 import { useJournalStore } from '../stores/journal'
 import JournalCard from '../components/journal/JournalCard.vue'
 import JournalFormModal from '../components/journal/JournalFormModal.vue'
@@ -40,9 +41,10 @@ function handleSaved() {
 <template>
   <div class="journal-page">
     <div class="page-header">
-      <h2 class="page-title">저널</h2>
-      <NButton type="primary" class="add-btn" @click="handleAdd">
-        + 새 저널
+      <h2 class="wyg-page-title">저널</h2>
+      <NButton type="primary" @click="handleAdd">
+        <template #icon><NIcon :component="Add" /></template>
+        새 저널
       </NButton>
     </div>
 
@@ -57,9 +59,9 @@ function handleSaved() {
         />
       </div>
 
-      <NEmpty v-else description="아직 저널이 없습니다" style="margin-top: 60px;">
+      <NEmpty v-else description="아직 저널이 없습니다" class="empty-state">
         <template #extra>
-          <NButton type="primary" class="add-btn" @click="handleAdd">
+          <NButton type="primary" @click="handleAdd">
             첫 저널 만들기
           </NButton>
         </template>
@@ -80,25 +82,16 @@ function handleSaved() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-}
-
-.page-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #333;
-  margin: 0;
-}
-
-.add-btn {
-  background-color: #E84057;
-  border-color: #E84057;
-  border-radius: 12px;
+  margin-bottom: var(--wyg-space-5);
 }
 
 .journal-grid {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--wyg-space-3);
+}
+
+.empty-state {
+  margin-top: var(--wyg-space-16);
 }
 </style>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { NButton } from 'naive-ui'
+import { ladderColors, palette } from '../../theme/palette'
 
 const props = defineProps<{ items: string[]; players: string[] }>()
 const emit = defineEmits<{ result: [mapping: Record<string, string>] }>()
@@ -39,18 +40,18 @@ function drawAndRun() {
 
   ctx.clearRect(0, 0, w, h)
 
-  // 플레이어 이름 (상단)
+  // Player names (top)
   ctx.font = '13px Pretendard, sans-serif'
   ctx.textAlign = 'center'
-  ctx.fillStyle = '#E84057'
+  ctx.fillStyle = ladderColors.playerText
   props.players.forEach((p, i) => {
     const label = p.length > 5 ? p.slice(0, 5) : p
     ctx.fillText(label, colW * (i + 1), topY - 10)
   })
 
-  // 아이템 이름 (하단) — 셔플
+  // Item names (bottom) — shuffled
   const shuffled = [...props.items].sort(() => Math.random() - 0.5)
-  ctx.fillStyle = '#333'
+  ctx.fillStyle = ladderColors.itemText
   shuffled.forEach((item, i) => {
     if (i < cols && item) {
       const lbl = item.length > 5 ? item.slice(0, 5) : item
@@ -58,8 +59,8 @@ function drawAndRun() {
     }
   })
 
-  // 세로선
-  ctx.strokeStyle = '#FFD6D6'
+  // Vertical lines
+  ctx.strokeStyle = ladderColors.vertical
   ctx.lineWidth = 2
   for (let c = 0; c < cols; c++) {
     ctx.beginPath()
@@ -68,8 +69,8 @@ function drawAndRun() {
     ctx.stroke()
   }
 
-  // 가로 다리
-  ctx.strokeStyle = '#FF8E8E'
+  // Horizontal bridges
+  ctx.strokeStyle = ladderColors.bridge
   ctx.lineWidth = 2
   bridges.forEach((row, r) => {
     const y = topY + rowH * (r + 1)
@@ -83,7 +84,7 @@ function drawAndRun() {
     })
   })
 
-  // 경로 추적
+  // Path trace
   const mapping: Record<string, string> = {}
   props.players.forEach((player, startCol) => {
     let col = startCol
@@ -115,7 +116,7 @@ onMounted(() => {
     ctx.clearRect(0, 0, canvas.value.width, canvas.value.height)
     ctx.font = '14px Pretendard, sans-serif'
     ctx.textAlign = 'center'
-    ctx.fillStyle = '#999'
+    ctx.fillStyle = palette.textTertiary
     ctx.fillText('시작 버튼을 눌러주세요', canvas.value.width / 2, canvas.value.height / 2)
   }
 })
@@ -133,7 +134,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <NButton type="primary" class="run-btn" :disabled="running" @click="run">
+    <NButton type="primary" size="large" class="run-btn" :disabled="running" @click="run">
       {{ running ? '실행 중...' : '사다리 타기!' }}
     </NButton>
   </div>
@@ -144,51 +145,48 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: var(--wyg-space-4);
+  padding: var(--wyg-space-4) 0;
 }
 
 .ladder-canvas {
   max-width: 100%;
-  border-radius: 12px;
-  background: #fff;
+  border-radius: var(--wyg-radius-md);
+  background: var(--wyg-bg-card);
 }
 
 .result-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--wyg-space-2);
   width: 100%;
 }
 
 .result-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: #FFF5E4;
-  border-radius: 8px;
-  font-size: 14px;
+  gap: var(--wyg-space-2);
+  padding: var(--wyg-space-2) var(--wyg-space-3);
+  background: var(--wyg-bg-warm);
+  border-radius: var(--wyg-radius-sm);
+  font-size: var(--wyg-font-base);
 }
 
 .player-name {
   font-weight: 600;
-  color: #E84057;
+  color: var(--wyg-text-accent);
 }
 
 .arrow {
-  color: #999;
+  color: var(--wyg-text-tertiary);
 }
 
 .item-name {
   font-weight: 500;
-  color: #333;
+  color: var(--wyg-text-primary);
 }
 
 .run-btn {
-  background-color: #E84057;
-  border-color: #E84057;
-  border-radius: 12px;
   width: 200px;
-  height: 44px;
 }
 </style>

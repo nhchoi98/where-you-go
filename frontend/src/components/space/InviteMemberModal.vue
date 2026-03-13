@@ -39,7 +39,8 @@ async function handleInvite() {
     <NCard
       title="멤버 초대"
       :bordered="false"
-      class="modal-card"
+      class="wyg-modal-card"
+      style="max-width: 420px;"
       closable
       @close="emit('update:show', false)"
     >
@@ -50,9 +51,10 @@ async function handleInvite() {
         <NButton
           type="primary"
           block
+          size="large"
           :loading="loading"
           attr-type="submit"
-          class="submit-btn"
+          style="margin-top: 8px;"
         >
           초대하기
         </NButton>
@@ -60,19 +62,3 @@ async function handleInvite() {
     </NCard>
   </NModal>
 </template>
-
-<style scoped>
-.modal-card {
-  width: 90vw;
-  max-width: 420px;
-  border-radius: 16px;
-}
-
-.submit-btn {
-  background-color: #E84057;
-  border-color: #E84057;
-  border-radius: 12px;
-  height: 44px;
-  margin-top: 8px;
-}
-</style>

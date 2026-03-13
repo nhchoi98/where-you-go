@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { NButton } from 'naive-ui'
+import { wheelColors, palette } from '../../theme/palette'
 
 const props = defineProps<{ items: string[] }>()
 const emit = defineEmits<{ result: [item: string] }>()
@@ -9,8 +10,6 @@ const canvas = ref<HTMLCanvasElement | null>(null)
 const spinning = ref(false)
 const rotation = ref(0)
 const winner = ref<string | null>(null)
-
-const colors = ['#FF6B6B', '#FF8E8E', '#FFD6D6', '#FFF5E4', '#E84057', '#FFB4B4']
 
 function draw() {
   const el = canvas.value
@@ -34,16 +33,16 @@ function draw() {
     ctx.moveTo(0, 0)
     ctx.arc(0, 0, r, start, end)
     ctx.closePath()
-    ctx.fillStyle = colors[i % colors.length]!
+    ctx.fillStyle = wheelColors[i % wheelColors.length]!
     ctx.fill()
-    ctx.strokeStyle = '#fff'
+    ctx.strokeStyle = palette.white
     ctx.lineWidth = 2
     ctx.stroke()
 
     ctx.save()
     ctx.rotate(start + sliceAngle / 2)
     ctx.textAlign = 'center'
-    ctx.fillStyle = '#333'
+    ctx.fillStyle = i % wheelColors.length < 2 ? palette.white : palette.textPrimary
     ctx.font = '13px Pretendard, sans-serif'
     const label = item.length > 8 ? item.slice(0, 8) + '…' : item
     ctx.fillText(label, r * 0.6, 4)
@@ -52,13 +51,13 @@ function draw() {
 
   ctx.restore()
 
-  // 화살표
+  // Arrow
   ctx.beginPath()
   ctx.moveTo(cx + r + 5, cy)
   ctx.lineTo(cx + r - 15, cy - 10)
   ctx.lineTo(cx + r - 15, cy + 10)
   ctx.closePath()
-  ctx.fillStyle = '#E84057'
+  ctx.fillStyle = palette.primary
   ctx.fill()
 }
 
@@ -101,8 +100,8 @@ onMounted(draw)
 <template>
   <div class="spin-wheel">
     <canvas ref="canvas" width="300" height="300" class="wheel-canvas" />
-    <div v-if="winner" class="winner-text">{{ winner }}</div>
-    <NButton type="primary" class="spin-btn" :disabled="spinning" @click="spin">
+    <div v-if="winner" class="winner-text scale-bounce">{{ winner }}</div>
+    <NButton type="primary" size="large" class="spin-btn" :disabled="spinning" @click="spin">
       {{ spinning ? '돌아가는 중...' : '돌리기!' }}
     </NButton>
   </div>
@@ -113,7 +112,8 @@ onMounted(draw)
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: var(--wyg-space-4);
+  padding: var(--wyg-space-4) 0;
 }
 
 .wheel-canvas {
@@ -121,16 +121,12 @@ onMounted(draw)
 }
 
 .winner-text {
-  font-size: 20px;
+  font-size: var(--wyg-font-xl);
   font-weight: 700;
-  color: #E84057;
+  color: var(--wyg-text-accent);
 }
 
 .spin-btn {
-  background-color: #E84057;
-  border-color: #E84057;
-  border-radius: 12px;
   width: 200px;
-  height: 44px;
 }
 </style>

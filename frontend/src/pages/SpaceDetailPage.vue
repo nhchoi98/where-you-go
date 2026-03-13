@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { NCard, NButton, NTag, NAvatar, NSpin, NIcon } from 'naive-ui'
+import { NButton, NTag, NAvatar, NSpin, NIcon } from 'naive-ui'
 import { Map, Book, Sparkles, Dice } from '@vicons/ionicons5'
 import { useSpaceStore } from '../stores/space'
 import { useAuthStore } from '../stores/auth'
@@ -31,27 +31,38 @@ onMounted(() => {
     <NSpin :show="spaceStore.loading">
       <template v-if="spaceStore.currentSpace">
         <div class="space-header">
-          <h2 class="space-name">{{ spaceStore.currentSpace.space.name }}</h2>
-          <p v-if="spaceStore.currentSpace.space.description" class="space-desc">
+          <h2 class="wyg-page-title">{{ spaceStore.currentSpace.space.name }}</h2>
+          <p v-if="spaceStore.currentSpace.space.description" class="wyg-page-desc">
             {{ spaceStore.currentSpace.space.description }}
           </p>
+          <div class="space-stats">
+            <span class="stat">{{ spaceStore.currentSpace.members.length }}명 멤버</span>
+          </div>
         </div>
 
         <div class="quick-links">
-          <RouterLink :to="`/spaces/${spaceId}/tasks`" class="quick-link">
-            <NIcon :size="20" :component="Map" />
+          <RouterLink :to="`/spaces/${spaceId}/tasks`" class="quick-link hover-lift">
+            <div class="quick-link-icon">
+              <NIcon :size="20" :component="Map" />
+            </div>
             <span>태스크</span>
           </RouterLink>
-          <RouterLink :to="`/spaces/${spaceId}/journals`" class="quick-link">
-            <NIcon :size="20" :component="Book" />
+          <RouterLink :to="`/spaces/${spaceId}/journals`" class="quick-link hover-lift">
+            <div class="quick-link-icon">
+              <NIcon :size="20" :component="Book" />
+            </div>
             <span>저널</span>
           </RouterLink>
-          <RouterLink :to="`/spaces/${spaceId}/ai`" class="quick-link">
-            <NIcon :size="20" :component="Sparkles" />
+          <RouterLink :to="`/spaces/${spaceId}/ai`" class="quick-link hover-lift">
+            <div class="quick-link-icon">
+              <NIcon :size="20" :component="Sparkles" />
+            </div>
             <span>AI 추천</span>
           </RouterLink>
-          <RouterLink :to="`/spaces/${spaceId}/random`" class="quick-link">
-            <NIcon :size="20" :component="Dice" />
+          <RouterLink :to="`/spaces/${spaceId}/random`" class="quick-link hover-lift">
+            <div class="quick-link-icon">
+              <NIcon :size="20" :component="Dice" />
+            </div>
             <span>랜덤 뽑기</span>
           </RouterLink>
         </div>
@@ -59,26 +70,24 @@ onMounted(() => {
         <div class="section">
           <div class="section-header">
             <h3 class="section-title">멤버</h3>
-            <NButton v-if="isOwner" size="small" class="invite-btn" @click="showInvite = true">
+            <NButton v-if="isOwner" size="small" @click="showInvite = true">
               + 초대
             </NButton>
           </div>
 
           <div class="member-list">
-            <NCard v-for="member in spaceStore.currentSpace.members" :key="member.id" class="member-card">
-              <div class="member-row">
-                <NAvatar :size="36" round>
-                  {{ member.userName?.charAt(0) || '?' }}
-                </NAvatar>
-                <div class="member-info">
-                  <span class="member-name">{{ member.userName }}</span>
-                  <span class="member-email">{{ member.userEmail }}</span>
-                </div>
-                <NTag :type="member.role === 'owner' ? 'error' : 'default'" size="small" round>
-                  {{ member.role === 'owner' ? '관리자' : '멤버' }}
-                </NTag>
+            <div v-for="member in spaceStore.currentSpace.members" :key="member.id" class="member-row">
+              <NAvatar :size="36" round :style="{ background: 'var(--wyg-primary-light)', color: 'var(--wyg-primary)' }">
+                {{ member.userName?.charAt(0) || '?' }}
+              </NAvatar>
+              <div class="member-info">
+                <span class="member-name">{{ member.userName }}</span>
+                <span class="member-email">{{ member.userEmail }}</span>
               </div>
-            </NCard>
+              <NTag :type="member.role === 'owner' ? 'error' : 'default'" size="small" round>
+                {{ member.role === 'owner' ? '관리자' : '멤버' }}
+              </NTag>
+            </div>
           </div>
         </div>
 
@@ -94,105 +103,121 @@ onMounted(() => {
 
 <style scoped>
 .space-header {
-  margin-bottom: 24px;
+  margin-bottom: var(--wyg-space-6);
 }
 
-.space-name {
-  font-size: 24px;
-  font-weight: 700;
-  color: #333;
-  margin: 0 0 4px;
+.space-stats {
+  display: flex;
+  gap: var(--wyg-space-4);
+  margin-top: var(--wyg-space-2);
 }
 
-.space-desc {
-  font-size: 14px;
-  color: #888;
-  margin: 0;
+.stat {
+  font-size: var(--wyg-font-sm);
+  color: var(--wyg-text-secondary);
+  background: var(--wyg-primary-light);
+  padding: var(--wyg-space-1) var(--wyg-space-3);
+  border-radius: var(--wyg-radius-full);
 }
 
 .section {
-  margin-bottom: 24px;
+  margin-bottom: var(--wyg-space-6);
 }
 
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: var(--wyg-space-3);
 }
 
 .section-title {
-  font-size: 17px;
+  font-size: var(--wyg-font-lg);
   font-weight: 600;
-  color: #333;
+  color: var(--wyg-text-primary);
   margin: 0;
-}
-
-.invite-btn {
-  color: #E84057;
-  border-color: #E84057;
-  border-radius: 8px;
 }
 
 .member-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
-
-.member-card {
-  border-radius: 12px;
-  border: 1px solid #FFD6D6;
+  gap: var(--wyg-space-2);
 }
 
 .member-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--wyg-space-3);
+  padding: var(--wyg-space-3) var(--wyg-space-4);
+  background: var(--wyg-bg-card);
+  border: 1px solid var(--wyg-border-light);
+  border-radius: var(--wyg-radius-md);
+  transition: background var(--wyg-transition-fast);
+}
+
+.member-row:hover {
+  background: var(--wyg-primary-light);
 }
 
 .member-info {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .member-name {
-  font-size: 15px;
+  font-size: var(--wyg-font-md);
   font-weight: 500;
-  color: #333;
+  color: var(--wyg-text-primary);
 }
 
 .member-email {
-  font-size: 12px;
-  color: #999;
+  font-size: var(--wyg-font-xs);
+  color: var(--wyg-text-tertiary);
 }
 
 .quick-links {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: var(--wyg-space-3);
+  margin-bottom: var(--wyg-space-6);
 }
 
 .quick-link {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 14px 16px;
-  background: #fff;
-  border: 1px solid #FFD6D6;
-  border-radius: 12px;
+  gap: var(--wyg-space-2);
+  padding: var(--wyg-space-5) var(--wyg-space-4);
+  background: var(--wyg-bg-card);
+  border: 1px solid var(--wyg-border);
+  border-radius: var(--wyg-radius-lg);
   text-decoration: none;
-  color: #333;
-  font-size: 15px;
+  color: var(--wyg-text-primary);
+  font-size: var(--wyg-font-md);
   font-weight: 500;
-  transition: all 0.2s;
+  transition: all var(--wyg-transition-base);
+}
+
+.quick-link-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--wyg-radius-md);
+  background: var(--wyg-primary-light);
+  color: var(--wyg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .quick-link:hover {
-  background: #FFF5E4;
-  border-color: #E84057;
-  color: #E84057;
+  border-color: var(--wyg-primary);
+  color: var(--wyg-primary);
+}
+
+.quick-link:hover .quick-link-icon {
+  background: var(--wyg-primary);
+  color: var(--wyg-text-inverse);
 }
 </style>

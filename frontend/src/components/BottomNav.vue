@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { Heart, Map, Sparkles, Person } from '@vicons/ionicons5'
+import { Heart, Map, Sparkles, Ticket } from '@vicons/ionicons5'
 import { NIcon } from 'naive-ui'
 import { computed } from 'vue'
 
@@ -24,10 +24,15 @@ const tabs = computed(() => [
     label: 'AI 추천',
     disabled: !spaceId.value,
   },
-  { name: 'profile', path: '/recommend', icon: Person, label: '추천' },
+  { name: 'recommend', path: '/recommend', icon: Ticket, label: '추천' },
 ])
 
 const currentPath = computed(() => route.path)
+
+function isActive(tab: typeof tabs.value[0]) {
+  if (tab.path === '/') return currentPath.value === '/'
+  return currentPath.value.startsWith(tab.path)
+}
 </script>
 
 <template>
@@ -37,10 +42,11 @@ const currentPath = computed(() => route.path)
       :key="tab.name"
       :to="tab.path"
       class="bottom-nav-item"
-      :class="{ active: currentPath.startsWith(tab.path) && tab.path !== '/' || currentPath === tab.path && tab.path === '/' }"
+      :class="{ active: isActive(tab) }"
     >
       <NIcon :size="22" :component="tab.icon" />
       <span class="label">{{ tab.label }}</span>
+      <span v-if="isActive(tab)" class="active-dot" />
     </RouterLink>
   </nav>
 </template>
@@ -54,11 +60,12 @@ const currentPath = computed(() => route.path)
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 64px;
-  background: #fff;
-  border-top: 1px solid #FFD6D6;
-  box-shadow: 0 -2px 8px rgba(232, 64, 87, 0.08);
-  z-index: 100;
+  height: var(--wyg-bottomnav-height);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--wyg-border-light);
+  z-index: var(--wyg-z-nav);
 }
 
 .bottom-nav-item {
@@ -67,16 +74,27 @@ const currentPath = computed(() => route.path)
   align-items: center;
   gap: 2px;
   text-decoration: none;
-  color: #999;
+  color: var(--wyg-text-tertiary);
   font-size: 11px;
-  transition: color 0.2s;
+  transition: color var(--wyg-transition-fast);
+  position: relative;
+  padding: var(--wyg-space-1) var(--wyg-space-3);
 }
 
 .bottom-nav-item.active {
-  color: #E84057;
+  color: var(--wyg-primary);
 }
 
 .label {
   font-weight: 500;
+}
+
+.active-dot {
+  position: absolute;
+  bottom: -2px;
+  width: 4px;
+  height: 4px;
+  border-radius: var(--wyg-radius-full);
+  background: var(--wyg-primary);
 }
 </style>

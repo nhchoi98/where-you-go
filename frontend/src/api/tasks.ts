@@ -8,12 +8,12 @@ export const tasksApi = {
     return res.data
   },
 
-  async create(spaceId: string, payload: { location: string; priority?: number; metadata?: { entries: { type: string; content: string }[] } }): Promise<Task> {
+  async create(spaceId: string, payload: { title: string; placeName?: string | null; priority?: number; metadata?: { entries: { type: string; content: string }[] } }): Promise<Task> {
     const res = await instance.post(`/api/spaces/${spaceId}/tasks`, payload)
     return res.data
   },
 
-  async update(spaceId: string, taskId: string, payload: { location?: string; priority?: number; metadata?: { entries: { type: string; content: string }[] } }): Promise<Task> {
+  async update(spaceId: string, taskId: string, payload: { title?: string; placeName?: string | null; priority?: number; metadata?: { entries: { type: string; content: string }[] } }): Promise<Task> {
     const res = await instance.put(`/api/spaces/${spaceId}/tasks/${taskId}`, payload)
     return res.data
   },
