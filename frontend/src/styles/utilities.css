@@ -1,0 +1,145 @@
+/* ============================================
+   Where You Go — Shared Utility Classes
+   ============================================ */
+
+/* ---- Page Header ---- */
+.wyg-page-title {
+  font-size: var(--wyg-font-xl);
+  font-weight: 700;
+  color: var(--wyg-text-primary);
+  margin: 0 0 var(--wyg-space-1);
+  letter-spacing: -0.01em;
+}
+
+.wyg-page-desc {
+  font-size: var(--wyg-font-base);
+  color: var(--wyg-text-secondary);
+  margin: 0 0 var(--wyg-space-5);
+}
+
+/* ---- Card ---- */
+.wyg-card {
+  border-radius: var(--wyg-radius-lg);
+  border: 1px solid var(--wyg-border);
+  background: var(--wyg-bg-card);
+  transition: box-shadow var(--wyg-transition-base), transform var(--wyg-transition-base);
+}
+
+.wyg-card-hoverable {
+  cursor: pointer;
+}
+
+.wyg-card-hoverable:hover {
+  box-shadow: var(--wyg-shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* ---- Form ---- */
+.wyg-form-card {
+  border-radius: var(--wyg-radius-lg);
+  border: 1px solid var(--wyg-border);
+  margin-bottom: var(--wyg-space-5);
+}
+
+.wyg-form-row {
+  margin-bottom: var(--wyg-space-4);
+}
+
+.wyg-form-label {
+  display: block;
+  font-size: var(--wyg-font-base);
+  font-weight: 500;
+  color: var(--wyg-text-primary);
+  margin-bottom: var(--wyg-space-2);
+}
+
+/* ---- Modal ---- */
+.wyg-modal-card {
+  width: 90vw;
+  max-width: 480px;
+  border-radius: var(--wyg-radius-lg);
+}
+
+/* ---- Markdown Content ---- */
+.wyg-markdown {
+  font-size: var(--wyg-font-base);
+  line-height: 1.8;
+  color: var(--wyg-text-primary);
+}
+
+.wyg-markdown :deep(h1),
+.wyg-markdown :deep(h2),
+.wyg-markdown :deep(h3) {
+  color: var(--wyg-text-primary);
+  margin: var(--wyg-space-4) 0 var(--wyg-space-2);
+  font-weight: 600;
+}
+
+.wyg-markdown :deep(h2) {
+  font-size: var(--wyg-font-lg);
+  color: var(--wyg-text-accent);
+}
+
+.wyg-markdown :deep(h3) {
+  font-size: var(--wyg-font-md);
+  color: var(--wyg-text-accent);
+}
+
+.wyg-markdown :deep(ul),
+.wyg-markdown :deep(ol) {
+  padding-left: var(--wyg-space-5);
+  margin: var(--wyg-space-2) 0;
+}
+
+.wyg-markdown :deep(li) {
+  margin-bottom: var(--wyg-space-1);
+}
+
+.wyg-markdown :deep(strong) {
+  color: var(--wyg-text-primary);
+}
+
+.wyg-markdown :deep(hr) {
+  border: none;
+  border-top: 1px solid var(--wyg-border);
+  margin: var(--wyg-space-4) 0;
+}
+
+.wyg-markdown :deep(p) {
+  margin: var(--wyg-space-2) 0;
+}
+
+.wyg-markdown :deep(a) {
+  color: var(--wyg-text-accent);
+  text-decoration: none;
+}
+
+.wyg-markdown :deep(a:hover) {
+  text-decoration: underline;
+}
+
+.wyg-markdown :deep(blockquote) {
+  border-left: 3px solid var(--wyg-primary);
+  padding-left: var(--wyg-space-4);
+  margin: var(--wyg-space-3) 0;
+  color: var(--wyg-text-secondary);
+}
+
+.wyg-markdown :deep(code) {
+  background: var(--wyg-bg-warm);
+  padding: 2px 6px;
+  border-radius: var(--wyg-radius-sm);
+  font-size: var(--wyg-font-sm);
+}
+
+.wyg-markdown :deep(pre) {
+  background: var(--wyg-bg-warm);
+  padding: var(--wyg-space-3);
+  border-radius: var(--wyg-radius-sm);
+  overflow-x: auto;
+}
+
+.wyg-markdown :deep(pre code) {
+  background: none;
+  padding: 0;
+}

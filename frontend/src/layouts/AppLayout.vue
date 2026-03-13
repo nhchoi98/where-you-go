@@ -3,7 +3,7 @@ import { useBreakpoints } from '@vueuse/core'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import BottomNav from '../components/BottomNav.vue'
-import SideNav from '../components/SideNav.vue'
+import TopNav from '../components/TopNav.vue'
 import AiFloatingButton from '../components/AiFloatingButton.vue'
 
 const breakpoints = useBreakpoints({ sm: 640, md: 768, lg: 1024 })
@@ -15,7 +15,7 @@ const spaceId = computed(() => route.params.id as string | undefined)
 
 <template>
   <div class="app-layout">
-    <SideNav v-if="!isMobile" />
+    <TopNav v-if="!isMobile" />
     <main class="app-main" :class="{ 'has-bottom-nav': isMobile }">
       <div class="app-content">
         <RouterView v-slot="{ Component }">
@@ -33,15 +33,15 @@ const spaceId = computed(() => route.params.id as string | undefined)
 <style scoped>
 .app-layout {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  background-color: var(--wyg-bg-page);
+  background-color: var(--wyg-bg-card);
 }
 
 .app-main {
   flex: 1;
   max-width: 100%;
   min-width: 0;
-  background-color: var(--wyg-bg-card);
 }
 
 .app-content {

@@ -17,6 +17,9 @@ importers:
       axios:
         specifier: ^1.13.6
         version: 1.13.6
+      dayjs:
+        specifier: ^1.11.20
+        version: 1.11.20
       dompurify:
         specifier: ^3.3.2
         version: 3.3.2
@@ -553,6 +556,9 @@ packages:
 
   date-fns@4.1.0:
     resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
+
+  dayjs@1.11.20:
+    resolution: {integrity: sha512-YbwwqR/uYpeoP4pu043q+LTDLFBLApUP6VxRihdfNTqu4ubqMlGDLd6ErXhEgsyvY0K6nCs7nggYumAN+9uEuQ==}
 
   delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
@@ -1242,6 +1248,8 @@ snapshots:
       date-fns: 4.1.0
 
   date-fns@4.1.0: {}
+
+  dayjs@1.11.20: {}
 
   delayed-stream@1.0.0: {}
 

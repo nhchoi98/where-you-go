@@ -7,6 +7,7 @@ import { aiApi } from '../api/ai'
 import type { AiOptionItem } from '../types/ai'
 import MarkdownIt from 'markdown-it'
 import DOMPurify from 'dompurify'
+import dayjs from 'dayjs'
 
 const md = new MarkdownIt({ linkify: true })
 md.renderer.rules.link_open = (tokens, idx, options, _env, self) => {
@@ -23,8 +24,7 @@ function renderMd(text: string) {
 }
 
 function formatDate(ts: number): string {
-  const d = new Date(ts)
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+  return dayjs(ts).format('YYYY-MM-DD')
 }
 
 const route = useRoute()

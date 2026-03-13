@@ -1,0 +1,92 @@
+/* ============================================
+   Where You Go — Design Tokens
+   ============================================ */
+
+:root {
+  /* ---- Brand Colors ---- */
+  --wyg-primary: #E84057;
+  --wyg-primary-hover: #D63549;
+  --wyg-primary-pressed: #C42D40;
+  --wyg-primary-suppl: #F06070;
+  --wyg-primary-light: #FFF0F0;
+  --wyg-primary-light-hover: #FFE4E6;
+
+  /* ---- Surface / Background ---- */
+  --wyg-bg-page: #FFFAF5;
+  --wyg-bg-card: #FFFFFF;
+  --wyg-bg-card-hover: #FFFAF5;
+  --wyg-bg-overlay: rgba(0, 0, 0, 0.45);
+  --wyg-bg-warm: #FFF5EE;
+  --wyg-bg-gradient: linear-gradient(135deg, #FFFAF5 0%, #FFE8E8 100%);
+
+  /* ---- Border ---- */
+  --wyg-border: #FFE0E0;
+  --wyg-border-light: #FFF0F0;
+  --wyg-border-active: #E84057;
+
+  /* ---- Text ---- */
+  --wyg-text-primary: #1A1A2E;
+  --wyg-text-secondary: #6B7280;
+  --wyg-text-tertiary: #9CA3AF;
+  --wyg-text-inverse: #FFFFFF;
+  --wyg-text-accent: #E84057;
+
+  /* ---- Semantic ---- */
+  --wyg-success: #22C55E;
+  --wyg-warning: #F59E0B;
+  --wyg-error: #EF4444;
+  --wyg-info: #3B82F6;
+
+  /* ---- Shadow ---- */
+  --wyg-shadow-sm: 0 1px 3px rgba(232, 64, 87, 0.06);
+  --wyg-shadow-md: 0 4px 12px rgba(232, 64, 87, 0.08);
+  --wyg-shadow-lg: 0 8px 32px rgba(232, 64, 87, 0.1);
+  --wyg-shadow-hover: 0 6px 20px rgba(232, 64, 87, 0.12);
+
+  /* ---- Radius ---- */
+  --wyg-radius-sm: 8px;
+  --wyg-radius-md: 12px;
+  --wyg-radius-lg: 16px;
+  --wyg-radius-xl: 20px;
+  --wyg-radius-full: 9999px;
+
+  /* ---- Spacing (4px grid) ---- */
+  --wyg-space-1: 4px;
+  --wyg-space-2: 8px;
+  --wyg-space-3: 12px;
+  --wyg-space-4: 16px;
+  --wyg-space-5: 20px;
+  --wyg-space-6: 24px;
+  --wyg-space-8: 32px;
+  --wyg-space-10: 40px;
+  --wyg-space-12: 48px;
+  --wyg-space-16: 64px;
+
+  /* ---- Typography ---- */
+  --wyg-font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --wyg-font-xs: 12px;
+  --wyg-font-sm: 13px;
+  --wyg-font-base: 14px;
+  --wyg-font-md: 15px;
+  --wyg-font-lg: 17px;
+  --wyg-font-xl: 20px;
+  --wyg-font-2xl: 24px;
+  --wyg-font-3xl: 28px;
+
+  /* ---- Z-index ---- */
+  --wyg-z-dropdown: 50;
+  --wyg-z-sticky: 80;
+  --wyg-z-nav: 100;
+  --wyg-z-modal: 200;
+  --wyg-z-fab: 150;
+
+  /* ---- Transition ---- */
+  --wyg-transition-fast: 150ms ease;
+  --wyg-transition-base: 200ms ease;
+  --wyg-transition-slow: 300ms ease;
+
+  /* ---- Layout ---- */
+  --wyg-sidebar-width: 240px;
+  --wyg-bottomnav-height: 64px;
+  --wyg-content-max-width: 960px;
+}

@@ -4,6 +4,7 @@ import { NModal, NCard, NForm, NFormItem, NInput, NButton, NDatePicker, NTransfe
 import { useJournalStore } from '../../stores/journal'
 import { useTaskStore } from '../../stores/task'
 import type { Journal } from '../../types/journal'
+import dayjs from 'dayjs'
 
 const props = defineProps<{
   show: boolean
@@ -39,8 +40,8 @@ watch(
     if (val && props.editJournal) {
       title.value = props.editJournal.title
       dateRange.value = [
-        new Date(props.editJournal.dateFrom).getTime(),
-        new Date(props.editJournal.dateTo).getTime(),
+        dayjs(props.editJournal.dateFrom).valueOf(),
+        dayjs(props.editJournal.dateTo).valueOf(),
       ]
       selectedTaskIds.value = [...props.editJournal.taskIds]
       description.value = props.editJournal.metadata?.description || ''
@@ -57,8 +58,7 @@ watch(
 )
 
 function formatDate(ts: number): string {
-  const d = new Date(ts)
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+  return dayjs(ts).format('YYYY-MM-DD')
 }
 
 async function handleSubmit() {

@@ -1,0 +1,79 @@
+/* ============================================
+   Where You Go — Transitions & Animations
+   ============================================ */
+
+/* ---- Page Transition ---- */
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.page-fade-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.page-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+/* ---- Card Hover Lift ---- */
+.hover-lift {
+  transition: box-shadow var(--wyg-transition-base), transform var(--wyg-transition-base);
+}
+
+.hover-lift:hover {
+  box-shadow: var(--wyg-shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* ---- FAB Pulse ---- */
+@keyframes fab-pulse {
+  0% { box-shadow: 0 4px 16px rgba(232, 64, 87, 0.3); }
+  50% { box-shadow: 0 4px 24px rgba(232, 64, 87, 0.5); }
+  100% { box-shadow: 0 4px 16px rgba(232, 64, 87, 0.3); }
+}
+
+.fab-pulse {
+  animation: fab-pulse 1.5s ease-in-out 3;
+}
+
+/* ---- Scale Bounce ---- */
+@keyframes scale-bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.scale-bounce {
+  animation: scale-bounce 0.4s ease;
+}
+
+/* ---- Slide Up (Bottom Sheet) ---- */
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+/* ---- Slide Right (Side Drawer) ---- */
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.slide-right-enter-from,
+.slide-right-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+/* ---- Tab Icon Scale ---- */
+.tab-icon-active {
+  animation: scale-bounce 0.3s ease;
+}
